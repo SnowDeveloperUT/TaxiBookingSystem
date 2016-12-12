@@ -1,0 +1,72 @@
+<div ng-controller="ViewBookingCtrl as vm">
+    <div class="row">
+        <div class="col-md-12">
+            <div id="map-div">
+                <div map-lazy-load="https://maps.google.com/maps/api/js">
+                    <ng-map id="map" center="current-position" zoom="15" geo-callback="vm.callbackFunc('you')">
+                        <!--marker for pickup address-->
+                        <marker position="{{vm.formData.clientPickupAddress}}"
+                                icon="{{vm.pickupMarkerIcon}}"
+                                draggable="true"
+                                on-dragend="vm.onDragPickupMarkerPos()">
+                        </marker>
+                        <!--marker for dropoff address-->
+                        <marker position="{{vm.formData.clientDropoffAddress}}"
+                                icon="{{vm.dropoffMarkerIcon}}"
+                                draggable="true"
+                                on-dragend="vm.onDragDropoffMarkerPos()">
+                        </marker>
+                    </ng-map>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        Distance: {{vm.distance}} km(s)
+    </div>
+
+    <div class="row">
+        <form role="form" class="mapForm" ng-model="vm.form">
+            <div ng-if="vm.DEBUG">
+                <i>debug: formData.isDisabled: {{vm.formData.isDisabled}}</i>
+            </div>
+            <div class="form-group">
+                <label for="inputPickup">Pick up From:</label>
+                <button type="button" ng-click="vm.locateMePickup()" class="btn btn-primary btn-sm locateMeButton"
+                        ng-disabled="vm.formData.isDisabled">Locate me!
+                </button>
+                <input ng-model="vm.formData.clientPickupAddress" type="text" class="form-control" id="inputPickup"
+                       ng-disabled="vm.formData.isDisabled">
+                <div ng-if="vm.DEBUG">
+                    <br><i>debug: vm.formData.clientPickupAddress: {{vm.formData.clientPickupAddress}}</i>
+                    <br><i>debug: vm.formData.clientPickupLat: {{vm.formData.clientPickupLat}}</i>
+                    <br><i>debug: vm.formData.clientPickupLon: {{vm.formData.clientPickupLon}}</i>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputDrop">Drop To:</label>
+                <button type="button" ng-click="vm.locateMeDropoff()" class="btn btn-primary btn-sm locateMeButton"
+                        ng-disabled="vm.formData.isDisabled">Locate me!
+                </button>
+                <input ng-model="vm.formData.clientDropoffAddress" type="text" class="form-control" id="inputDrop"
+                       ng-disabled="vm.formData.isDisabled">
+                <div ng-if="vm.DEBUG">
+                    <br><i>debug: vm.formData.clientDropoffAddress: {{vm.formData.clientDropoffAddress}}</i>
+                    <br><i>debug: vm.formData.clientDropoffLat: {{vm.formData.clientDropoffLat}}</i>
+                    <br><i>debug: vm.formData.clientDropoffLon: {{vm.formData.clientDropoffLon}}</i>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPhone">Phone Number:</label>
+                <input ng-model="vm.formData.clientPhone" type="text" class="form-control" id="inputPhone"
+                       ng-disabled="vm.formData.isDisabled">
+                <div ng-if="vm.DEBUG">
+                    <br><i>debug: vm.formData.clientPhone: {{vm.formData.clientPhone}}</i>
+                </div>
+            </div>
+            <button type="submit" class="btn btn btn-primary big-yellow-button" ng-disabled="vm.formData.isDisabled">
+                Submit
+            </button>
+        </form>
+    </div>
+</div>
